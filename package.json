@@ -1,0 +1,19 @@
+{
+  "name": "@salypse/image-carousel",
+  "version": "1.0.0",
+  "description": "Create a image carousel using HTML and Javascript",
+  "main": "image-carousel.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Salypse/image-carousel.git"
+  },
+  "author": "Salypse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Salypse/image-carousel/issues"
+  },
+  "homepage": "https://github.com/Salypse/image-carousel#readme"
+}
