@@ -29,8 +29,29 @@ const imageCarouselDisplay = function(div, imageList) {
         displayNextImage(findCurrentImageIndex())
     })
 
+    const imageButtonsDiv = document.createElement("div")
+    imageButtonsDiv.classList.add("image-buttons")
+    imageList.forEach(image => {
+        const imageButton = document.createElement("button")
+        imageButton.style.width = "1rem"
+        imageButton.style.height = "1rem"
+        imageButton.style.borderRadius = "50%"
+
+        imageButton.addEventListener("click", () => {
+            pictureFrame.src = image
+
+            for (const button of imageButtonsDiv.children) {
+                button.style.backgroundColor = ""
+            }
+            imageButton.style.backgroundColor = "gray"
+        })
+
+        imageButtonsDiv.append(imageButton)
+    })
+
     carouselButtons.append(
         previousImageButton,
+        imageButtonsDiv,
         nextImageButton,
     )
 
