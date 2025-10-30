@@ -1,7 +1,8 @@
 const imageCarouselDisplay = function(div, imageList) {
     //Initialize Image Carousel and creating a new div if none given or not found
     let currrentImageCarousel = div;
-    
+    let currentImageIndex = 0;
+
     if (!currrentImageCarousel) {
         currrentImageCarousel = document.createElement("div");
         currrentImageCarousel.classList.add("image-carousel")
@@ -10,7 +11,7 @@ const imageCarouselDisplay = function(div, imageList) {
     //Create Image Carousel Structure
     const pictureFrame = document.createElement("img")
     pictureFrame.classList.add("picture-frame")
-    pictureFrame.src = imageList[0]
+    pictureFrame.src = imageList[currentImageIndex]
 
     const carouselButtons = document.createElement("div")
     carouselButtons.classList.add("carousel-buttons")
@@ -19,19 +20,22 @@ const imageCarouselDisplay = function(div, imageList) {
     previousImageButton.classList.add("previous-image")
     previousImageButton.textContent = "<-"
     previousImageButton.addEventListener("click", () => {
-        displayPreviousImage(findCurrentImageIndex())
+        displayPreviousImage(currentImageIndex)
+        updateButtonNav(currentImageIndex)
     })
 
     const nextImageButton = document.createElement("button")
     nextImageButton.classList.add("next-image")
     nextImageButton.textContent = "->"
     nextImageButton.addEventListener("click", () => {
-        displayNextImage(findCurrentImageIndex())
+        displayNextImage(currentImageIndex)
+        updateButtonNav(currentImageIndex)
     })
 
     const imageButtonsDiv = document.createElement("div")
     imageButtonsDiv.classList.add("image-buttons")
-    imageList.forEach(image => {
+
+    imageList.forEach((image, index) => {
         const imageButton = document.createElement("button")
         imageButton.style.width = "1rem"
         imageButton.style.height = "1rem"
@@ -39,15 +43,14 @@ const imageCarouselDisplay = function(div, imageList) {
 
         imageButton.addEventListener("click", () => {
             pictureFrame.src = image
-
-            for (const button of imageButtonsDiv.children) {
-                button.style.backgroundColor = ""
-            }
-            imageButton.style.backgroundColor = "gray"
+            currentImageIndex = index
+            updateButtonNav(currentImageIndex)
         })
 
         imageButtonsDiv.append(imageButton)
     })
+
+    updateButtonNav()
 
     carouselButtons.append(
         previousImageButton,
@@ -58,18 +61,24 @@ const imageCarouselDisplay = function(div, imageList) {
     currrentImageCarousel.append(pictureFrame,carouselButtons)
 
     
-    function displayNextImage(startIndex) {
-        startIndex = (startIndex === imageList.length - 1) ? 0 : startIndex + 1
-        pictureFrame.src = imageList[startIndex]
+    function displayNextImage() {
+        currentImageIndex = (currentImageIndex === imageList.length - 1) ? 0 : currentImageIndex + 1
+        pictureFrame.src = imageList[currentImageIndex]
     }
 
-    function displayPreviousImage(startIndex) {
-        startIndex = (startIndex === 0 ) ? (imageList.length - 1) : startIndex - 1
-        pictureFrame.src = imageList[startIndex]
+    function displayPreviousImage() {
+        currentImageIndex = currentImageIndex === 0 ? (imageList.length - 1) : currentImageIndex - 1
+        pictureFrame.src = imageList[currentImageIndex]
     }
 
-    function findCurrentImageIndex() {
-        return imageList.findIndex(image => pictureFrame.src.endsWith(image))
+
+
+    function updateButtonNav() {
+        const navButtons = imageButtonsDiv.children
+        
+        for (let i = 0; i < navButtons.length; i++) {
+            navButtons[i].style.backgroundColor = i === currentImageIndex ? "gray" : ""
+        }
     }
 }
 
