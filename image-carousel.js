@@ -21,7 +21,6 @@ const imageCarouselDisplay = function(div, imageList) {
     previousImageButton.textContent = "<-"
     previousImageButton.addEventListener("click", () => {
         displayPreviousImage(currentImageIndex)
-        updateButtonNav(currentImageIndex)
     })
 
     const nextImageButton = document.createElement("button")
@@ -29,7 +28,6 @@ const imageCarouselDisplay = function(div, imageList) {
     nextImageButton.textContent = "->"
     nextImageButton.addEventListener("click", () => {
         displayNextImage(currentImageIndex)
-        updateButtonNav(currentImageIndex)
     })
 
     const imageButtonsDiv = document.createElement("div")
@@ -59,16 +57,19 @@ const imageCarouselDisplay = function(div, imageList) {
     )
 
     currrentImageCarousel.append(pictureFrame,carouselButtons)
+    let nextPictureInterval = setInterval(displayNextImage, 5000)
 
     
     function displayNextImage() {
         currentImageIndex = (currentImageIndex === imageList.length - 1) ? 0 : currentImageIndex + 1
         pictureFrame.src = imageList[currentImageIndex]
+        updateButtonNav(currentImageIndex)
     }
 
     function displayPreviousImage() {
         currentImageIndex = currentImageIndex === 0 ? (imageList.length - 1) : currentImageIndex - 1
         pictureFrame.src = imageList[currentImageIndex]
+        updateButtonNav(currentImageIndex)
     }
 
 
@@ -81,15 +82,3 @@ const imageCarouselDisplay = function(div, imageList) {
         }
     }
 }
-
-const imageSrcList = [
-    "/home/salypse/repos/image-carousel/test-images/now-you-see-me-now-you-dont(2025).jpg",
-    "/home/salypse/repos/image-carousel/test-images/predator-badlands(2025).jpg",
-    "/home/salypse/repos/image-carousel/test-images/the-running-man(2025).jpg",
-    "/home/salypse/repos/image-carousel/test-images/wake-up-dead-man(2025).jpg",
-    "/home/salypse/repos/image-carousel/test-images/zootopia-2(2025).jpg",
-]
-
-
-const testDiv = document.querySelector(".image-carousel")
-const test = new imageCarouselDisplay(testDiv, imageSrcList)
